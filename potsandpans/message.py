@@ -13,7 +13,7 @@ class Message:
 		return self.number
 
 	def is_subscription():
-		return ('SUBSCRIBE' in self.message or 'subscribe' in self.message)
+		return ('subscribe' in self.message.lower())
 
 	def get_subclass():
 		if self.if_subscription():
