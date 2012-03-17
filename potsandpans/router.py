@@ -1,59 +1,6 @@
-class Sms:
-    # [sender_number, lat, long, timestamp]
-     @staticmethod
-     def parse_type(body_text):
-         if "subscribe" in body_text:
-              return Subscription
-         else:
-              return Alert
-
-class Subscription:
-     def __init__(self, sender_number, body_text, timestamp):
-          self.sender_number = sender_number
-          self.body_text = body_text
-          self.timestamp = timestamp
-     def parse(self):
-          sub = self.body_text.split(' ')
-          if len(sub) == 3:
-               #self.coord = sub[1], sub[2]
-               self.latitude = sub[1]
-               self.longitude = sub[0]
-          else:
-               self.latitude = None
-               self.longitude = None
-               print "Error: Incorrect number of parameters for subscriptions"
-     def handle(self):
-          pass
-     def to_dictionary(self):
-          convert = {"sender_number" : self.sender_number,
-                     "timestamp" : self.timestamp,
-                     "latitude" : self.latitude,
-                     "longitude" : self.longitude}
-          return convert
-     def save(self):
-          pass
-
-class Alert:
-     def __init__(self, sender_number, body_text, timestamp):
-          self.sender_number = sender_number
-          self.body_text = body_text
-          self.timestamp = timestamp
-     def parse(self):
-          # subsciber_coord = self.db_driver.get_subscriber_coord(self.send_number)
-          self.latitude = 0
-          self.longitude = 0
-     def handle(self):
-          # target_subscribers = self.db_driver.get_subscribers(self.coord)
-          subscribers = [1, 2, 3, 4] #subscriber_list = DBDriver.GetSubscribers(sms)
-          for target in subscribers:
-               print "Dispatcher.send(sms, " + str(target) + ")"
-     def to_dictionary(self):
-          convert = {"sender_number" : self.sender_number,
-                     "body_text" : self.body_text,
-                     "timestamp" : self.timestamp,
-                     "latitude" : self.latitude,
-                     "longitude" : self.longitude}
-          return convert
+from potsandpans.message import Message
+from potsandpans.alert import Alert
+from potsandpans.subscription import Subscription
 
 def quick_test():          
      phone_number = 1234567890
