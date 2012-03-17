@@ -6,4 +6,5 @@ app.config.from_pyfile('/etc/potsandpans/main.cfg')
 
 @app.route('/sms', methods=['GET', 'POST'])
 def sms():
+	print request.form
 	return 'hello world'
