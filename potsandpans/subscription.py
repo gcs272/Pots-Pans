@@ -1,29 +1,35 @@
 #!/usr/bin/env python
-class Subscription:
-	def __init__(self, sender_number, body_text, timestamp):
-		self.sender_number = sender_number
-		self.body_text = body_text
+from potsandpans import utility
+
+class Subscription():
+	def __init__(self, number, body, timestamp):
+		self.number = number
+		self.body = body 
 		self.timestamp = timestamp
 	
 	def parse(self):
-		sub = self.body_text.split(' ')
+		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """
+		sub = self.body.split(' ')
 		if len(sub) == 3:
 			self.latitude = sub[1]
 			self.longitude = sub[0]
 		else:
 			self.latitude = None
 			self.longitude = None
-			print "Error: Incorrect number of parameters for subscriptions"
+			raise Exception("Invalid message")
 	
 	def handle(self):
 		pass
 
 	def to_dictionary(self):
-		convert = {"sender_number" : self.sender_number,
+		return {
+			"number" : self.number,
 			"timestamp" : self.timestamp,
 			"latitude" : self.latitude,
-			"longitude" : self.longitude}
-		return convert
+			"longitude" : self.longitude 
+		}
 	
 	def save(self):
-		pass
+		conn = utility.get_mongodb_connection()
+		subscriptions = conn.potsandpans.subscriptions
+		subscriptions.insert(self.to_dictionary())
