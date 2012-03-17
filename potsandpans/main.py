@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from flask import Flask, redirect, url_for, render_template, request
-import json
 
 app = Flask(__name__)
 app.config.from_pyfile('/etc/potsandpans/main.cfg')
@@ -14,7 +13,6 @@ def sms():
 
 	if number and body:
 		message = Message(number, body)
-		message.get_subclass().handle()	# Handle the subscription or alert
-		return json.dumps({'status': 'ok'})
+		return message.get_subclass().handle()	# Handle the subscription or alert
 	else:
-		return json.dumps({'status': 'error', 'message': 'invalid sms'})
+		return render_template('subscription_failed.twiml')

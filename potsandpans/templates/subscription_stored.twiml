@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Response>
+	<Sms>Successfully subscribed, any further SMS will be considered an alert</Sms>
+</Response>

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from flask import render_template
 from utility import get_mongodb_connection
 
 class Subscription():
@@ -33,4 +34,7 @@ class Subscription():
 	def save(self):
 		conn = get_mongodb_connection()
 		subscriptions = conn.potsandpans.subscriptions
-		subscriptions.insert(self.to_dictionary())
+		if subscriptions.insert(self.to_dictionary()):
+			return render_template('subscription_stored.twiml')
+		else:
+			return render_template('subscription_failed.twiml')
