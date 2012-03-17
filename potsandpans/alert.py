@@ -12,9 +12,10 @@ class Alert:
           self.longitude = 0
      def handle(self):
 	  conn = get_mongodb_connection()
-          subscriber = conn.potsandpans.subscriber(self.sender_number)
-	  coords = geo.boundingBox(subscriber.latitude, subscriber.longitude, 10)
-          subscriber_list = conn.potsandpans.subscriber(coords[0], coords[1], coords[2], coords[3])
+          subscriber = conn.potsandpans.subscriber()
+	  sub = subscriber.select(self.sender_number)
+	  coords = geo.boundingBox(sub.latitude, sub.longitude, 10)
+          subscriber_list = subscriber.select(coords[0], coords[1], coords[2], coords[3])
           for target in subscribers:
                 print "Dispatcher.send(" + str(target.number) + ", " + self.body_text + ")"
 		# save message received
