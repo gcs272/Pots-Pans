@@ -20,7 +20,6 @@ class Subscription():
 			raise Exception("Invalid message")
 	
 	def handle(self):
-		print 'handling subscription'
 		self.save()
 
 	def to_dictionary(self):
@@ -34,6 +33,4 @@ class Subscription():
 	def save(self):
 		conn = get_mongodb_connection()
 		subscriptions = conn.potsandpans.subscriptions
-		print 'inserting'
 		subscriptions.insert(self.to_dictionary())
-		print 'inserted'
