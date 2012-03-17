@@ -15,11 +15,16 @@ def get_mongodb_connection():
 
 def set_mongodb_connection(connection):
 	global mongodb_connection
-
 	mongodb_connection = connection
 
 def get_twilio_instance():
 	global twilio_client
 
 	if not twilio_client:
-		twilio_client = TwilioRestClient(
+		twilio_client = TwilioRestClient(app.config['TWILIO_APP_SID'], app.config['TWILIO_TOKEN'])
+	
+	return twilio_client
+
+def set_twilio_instance(client):
+	global twilio_client
+	twilio_client = client
