@@ -9,7 +9,7 @@ class Subscription:
 		sub = self.body_text.split(' ')
 		if len(sub) == 3:
 			self.latitude = sub[1]
-			self.longitude = sub[0]
+			self.longitude = sub[2]
 		else:
 			self.latitude = None
 			self.longitude = None
