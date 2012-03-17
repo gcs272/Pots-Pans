@@ -7,3 +7,6 @@ class GeoTest(unittest.TestCase):
 	def test_degree_to_rad(self):
 		rad = geo.deg2rad(180)
 		self.assertTrue(3.14 < rad < 3.15)
+
+	def test_addition(self):
+		self.assertEquals(4, 2 + 2)
