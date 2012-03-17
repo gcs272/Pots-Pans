@@ -6,3 +6,6 @@ class Message:
 			self.number = number
 			self.message = message
 			self.received = datetime.datetime.utcnow().isoformat()
+
+	def get_number(self):
+		return self.number
