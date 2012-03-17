@@ -1,5 +1,3 @@
-
-
 class Alert:
      def __init__(self, sender_number, body_text, timestamp):
           self.sender_number = sender_number
