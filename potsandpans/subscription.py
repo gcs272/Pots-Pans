@@ -1,26 +1,42 @@
 #!/usr/bin/env python
-class Subscription:
-     def __init__(self, sender_number, body_text, timestamp):
-          self.sender_number = sender_number
-          self.body_text = body_text
-          self.timestamp = timestamp
-     def parse(self):
-          sub = self.body_text.split(' ')
-          if len(sub) == 3:
-               #self.coord = sub[1], sub[2]
-               self.latitude = sub[1]
-               self.longitude = sub[0]
-          else:
-               self.latitude = None
-               self.longitude = None
-               print "Error: Incorrect number of parameters for subscriptions"
-     def handle(self):
-          pass
-     def to_dictionary(self):
-          convert = {"sender_number" : self.sender_number,
-                     "timestamp" : self.timestamp,
-                     "latitude" : self.latitude,
-                     "longitude" : self.longitude}
-          return convert
-     def save(self):
-          pass
+from flask import render_template
+from utility import get_mongodb_connection
+
+class Subscription():
+	def __init__(self, number, body, timestamp, latitude=None, longitude=None):
+		self.number = number
+		self.body = body 
+		self.timestamp = timestamp
+
+		if latitude is None and body is not None:
+			self.parse()
+
+	def parse(self):
+		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """
+		sub = self.body.split(' ')
+		if len(sub) == 3:
+			self.latitude = sub[1]
+			self.longitude = sub[2]
+		else:
+			self.latitude = None
+			self.longitude = None
+			raise Exception("Invalid message")
+	
+	def handle(self):
+		return self.save()
+
+	def to_dictionary(self):
+		return {
+			"number" : self.number,
+			"timestamp" : self.timestamp,
+			"latitude" : self.latitude,
+			"longitude" : self.longitude 
+		}
+	
+	def save(self):
+		conn = get_mongodb_connection()
+		subscriptions = conn.potsandpans.subscriptions
+		if subscriptions.insert(self.to_dictionary()):
+			return render_template('subscription_stored.twiml')
+		else:
+			return render_template('subscription_failed.twiml')

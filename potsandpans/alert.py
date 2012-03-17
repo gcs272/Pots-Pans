@@ -1,27 +1,37 @@
+from potsandpans import geo
+from potsandpans.subscription import Subscription
+from utility import get_mongodb_connection
+import datetime
+
 class Alert:
-     def __init__(self, sender_number, body_text, timestamp):
-          self.sender_number = sender_number
-          self.body_text = body_text
-          self.timestamp = timestamp
+	def __init__(self, number, body, timestamp):
+		self.number = number
+		self.body = body
+		self.timestamp = datetime.datetime.utcnow().isoformat()
+		self.subscription = None
+	
+	def lookup_subscription(self):
+		conn = get_mongodb_connection()
+		cursor = conn.potsandpans.subscriptions.find({'number': self.number})
+		if cursor.count() <= 0:
+			return None
+		else:
+			record = cursor.next()
+			return Subscription(record['number'], None, record['timestamp'], record['latitude'], record['longitude'])
 
-     def parse(self):
-          # subsciber_coord = self.db_driver.get_subscriber_coord(self.send_number)
-          self.latitude = 0
-          self.longitude = 0
+	def handle(self):
+		subscription = self.lookup_subscription()
+		if subscription is None:
+			return render_template('unknown_number.twiml')
 
-     def handle(self):
-          # target_subscribers = self.db_driver.get_subscribers(self.coord)
-          subscribers = [1, 2, 3, 4] #subscriber_list = DBDriver.GetSubscribers(sms)
-          for target in subscribers:
-               print "Dispatcher.send(sms, " + str(target) + ")"
+		coords = geo.boundingBox(subscription.latitude, subscription.longitude, 10)
+		subscriber_list = Subscription.select(coords[0], coords[1], coords[2], coords[3])
+		for target in subscribers:
+			print "Dispatcher.send(" + str(target.number) + ", " + self.body_text + ")"
+			# save message received
 
-     def to_dictionary(self):
-          convert = {"sender_number" : self.sender_number,
-                     "body_text" : self.body_text,
-                     "timestamp" : self.timestamp,
-                     "latitude" : self.latitude,
-                     "longitude" : self.longitude}
-          return convert
+	def to_dictionary(self):
+		convert = {"number" : self.number,"body" : self.body}
 
-     def save(self):
-         pass
+	def save(self):
+		pass
