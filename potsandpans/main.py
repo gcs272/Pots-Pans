@@ -11,9 +11,10 @@ def sms():
 	number = request.form.get('From', None)
 	body = request.form.get('Body', None)
 
-	try:
-		if number and body:
-			message = Message(number, body)
-			return message.get_subclass().handle()	# Handle the subscription or alert
-	except:	
+	#try:
+	if number and body:
+		message = Message(number, body)
+		return message.get_subclass().handle()	# Handle the subscription or alert
+	#except:	
+	else:
 		return render_template('subscription_failed.twiml')

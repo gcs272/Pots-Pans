@@ -3,11 +3,13 @@ from flask import render_template
 from utility import get_mongodb_connection
 
 class Subscription():
-	def __init__(self, number, body, timestamp):
+	def __init__(self, number, body, timestamp, latitude=None, longitude=None):
 		self.number = number
 		self.body = body 
 		self.timestamp = timestamp
-		self.parse()
+
+		if latitude is None and body is not None:
+			self.parse()
 
 	def parse(self):
 		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """

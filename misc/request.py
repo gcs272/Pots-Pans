@@ -12,5 +12,10 @@ if sys.argv[1] == 'subscribe':
 		'From': '555-555-1212',
 		'Body': sys.argv[2]
 	})
-
+else:
+	print 'alerting'
+	resp = requests.post('http://localhost:5000/sms', data={
+		'From': '555-555-1212',
+		'Body': sys.argv[2]
+	})
 print resp.content
