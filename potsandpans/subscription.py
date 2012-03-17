@@ -21,7 +21,7 @@ class Subscription():
 			raise Exception("Invalid message")
 	
 	def handle(self):
-		self.save()
+		return self.save()
 
 	def to_dictionary(self):
 		return {
