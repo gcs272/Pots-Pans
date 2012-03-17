@@ -12,4 +12,4 @@ def sms():
 
 	if number and body:
 		message = Message(number, body)
-
+		message.get_subclass().handle()	# Handle the subscription or alert
