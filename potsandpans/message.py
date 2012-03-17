@@ -12,11 +12,11 @@ class Message:
 	def get_number(self):
 		return self.number
 
-	def is_subscription():
+	def is_subscription(self):
 		return ('subscribe' in self.message.lower())
 
-	def get_subclass():
-		if self.if_subscription():
-			return Subscription(self.number, self.message, self.timestamp)
+	def get_subclass(self):
+		if self.is_subscription():
+			return Subscription(self.number, self.message, self.received)
 		else:
-			return Alert(self.number, self.message, self.timestamp)
+			return Alert(self.number, self.message, self.received)

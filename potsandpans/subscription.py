@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-from potsandpans import utility
+from utility import get_mongodb_connection
 
 class Subscription():
 	def __init__(self, number, body, timestamp):
 		self.number = number
 		self.body = body 
 		self.timestamp = timestamp
-	
+		self.parse()
+
 	def parse(self):
 		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """
 		sub = self.body.split(' ')
@@ -19,6 +20,7 @@ class Subscription():
 			raise Exception("Invalid message")
 	
 	def handle(self):
+		print 'handling subscription'
 		self.save()
 
 	def to_dictionary(self):
@@ -30,6 +32,8 @@ class Subscription():
 		}
 	
 	def save(self):
-		conn = utility.get_mongodb_connection()
+		conn = get_mongodb_connection()
 		subscriptions = conn.potsandpans.subscriptions
+		print 'inserting'
 		subscriptions.insert(self.to_dictionary())
+		print 'inserted'

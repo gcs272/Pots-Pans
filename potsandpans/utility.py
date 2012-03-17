@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from pymongo import Connection
 from potsandpans.main import app
+from pymongo import Connection
 from twilio.rest import TwilioRestClient
 
 mongodb_connection = None
