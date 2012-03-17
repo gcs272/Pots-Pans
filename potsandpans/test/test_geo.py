@@ -9,5 +9,10 @@ class GeoTest(unittest.TestCase):
 		self.assertTrue(3.14 < rad < 3.15)
 
 	def test_addition(self):
-		rad = geo.boundingBox(38.898748, -77.037684, 10)
-		self.assertTrue(rad[0] > 0)
+		lat = 38.898748
+		lng = -77.037684
+		rad = geo.boundingBox(lat, lng, 10)
+		self.assertTrue(rad[0] < lat)
+		self.assertTrue(rad[1] < lng)
+		self.assertTrue(rad[2] > lat)
+		self.assertTrue(rad[3] > lng)
