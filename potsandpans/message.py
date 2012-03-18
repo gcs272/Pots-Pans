@@ -2,7 +2,7 @@
 from potsandpans.subscription import Subscription
 from potsandpans.alert import Alert
 from potsandpans.friend import Friend
-from potsandpans.privatesms import PrivateSMS
+from potsandpans.private import PrivateSMS
 import datetime
 
 class Message:
