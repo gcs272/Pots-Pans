@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from potsandpans.subscription import Subscription
 from potsandpans.alert import Alert
+from potsandpans.friend import Friend
+from potsandpans.private import PrivateSMS
 import datetime
 
 class Message:
@@ -13,11 +15,21 @@ class Message:
 		return self.number
 
 	def is_subscription(self):
-		return ('subscribe' in self.message.lower())
+		return self.message.lower().startswith('subscribe')
+
+	def is_friendrequest(self):
+		return self.message.lower().startswith('friend')
+
+	def is_privatemsg(self):
+		return self.message.lower().startswith('shout')
 
 	def get_subclass(self):
 		if self.is_subscription():
 			return Subscription(self.number, self.message, self.received)
+		elif self.is_friendrequest():
+			return Friend(self.number, self.message, self.received)
+		elif self.is_privatemsg():
+			return PrivateSMS(self.number, self.message, self.received)
 		else:
 			return Alert(self.number, self.message, self.received)
 	
