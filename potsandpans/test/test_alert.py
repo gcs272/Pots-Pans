@@ -10,4 +10,4 @@ class AlertTest(unittest.TestCase):
         self.assertEquals(alert.timestamp, 0)
     def testParse(self):
         pass
-    # def testToDictionary(self):
+    #def testToDictionary(self):

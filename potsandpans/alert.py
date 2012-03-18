@@ -34,4 +34,10 @@ class Alert:
 		convert = {"number" : self.number,"body" : self.body}
 
 	def save(self):
-		pass
+		conn = get_mongodb_connection()
+                alerts = conn.potsandpans.alerts
+		if alert.insert(self.to_dictionary()):
+			return render_template('subscription_stored.twiml')
+		else:
+			return render_template('subscription_failed.twiml')
+
