@@ -22,7 +22,7 @@ class Message:
 		else:
 			return False
 
-	def is_privatemsg(self)
+	def is_privatemsg(self):
 		words = self.message.split(' ')
 		if len(words) > 0:
 			return 'shout' == words[0].lower()
