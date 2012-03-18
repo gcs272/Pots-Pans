@@ -21,7 +21,7 @@ def get_twilio_instance():
 	global twilio_client
 
 	if not twilio_client:
-		twilio_client = TwilioRestClient(app.config['TWILIO_APP_SID'], app.config['TWILIO_TOKEN'])
+		twilio_client = TwilioRestClient(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_TOKEN'])
 	
 	return twilio_client
 
