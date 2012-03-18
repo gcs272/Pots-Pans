@@ -10,6 +10,9 @@ class Subscription():
 
 		if latitude is None and body is not None:
 			self.parse()
+		else:
+			self.latitude = latitude
+			self.longitude = longitude
 
 	def parse(self):
 		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """
@@ -40,3 +43,15 @@ class Subscription():
 			return render_template('subscription_stored.twiml')
 		else:
 			return render_template('subscription_failed.twiml')
+
+	@staticmethod
+	def find_in_area(min_lat, min_long, max_lat, max_long):
+		conn = get_mongodb_connection()
+		cursor = conn.potsandpans.subscriptions.find({"latitude": {"$gt":min_lat, "$lt":max_lat}}, 
+			{"longitude": {"$gt": min_long, "$lt": max_long}})
+
+		subscriptions = []
+		for record in cursor:
+			subscriptions.append(Subscription(record['number'], None, record['timestamp'], record['latitude'], record['longitude']))
+
+		return subscriptions

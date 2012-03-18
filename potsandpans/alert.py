@@ -24,9 +24,17 @@ class Alert:
 		if subscription is None:
 			return render_template('unknown_number.twiml')
 
+		print subscription.latitude
+		print subscription.longitude
+		
 		coords = geo.boundingBox(subscription.latitude, subscription.longitude, 10)
-		subscriber_list = Subscription.select(coords[0], coords[1], coords[2], coords[3])
+		subscriber_list = Subscription.find_in_area(coords[0], coords[1], coords[2], coords[3])
 		for target in subscribers:
+			try:
+				client = get_twilio_client()
+				client.sms.messages.create(to=subscription.number, body="Alert: %s" % (self.body))
+			except Exception, e:
+				print "Sending failed (%s)" % e
 			print "Dispatcher.send(" + str(target.number) + ", " + self.body_text + ")"
 			# save message received
 
