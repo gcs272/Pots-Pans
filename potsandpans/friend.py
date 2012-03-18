@@ -3,7 +3,7 @@ from flask import render_template
 from utility import get_mongodb_connection
 
 class Friend():
-	def __init__(self, number, body, timestamp, friendnum):
+	def __init__(self, number, body, timestamp, friendnum=None):
 		self.number = number
 		self.body = body 
 		self.timestamp = timestamp
