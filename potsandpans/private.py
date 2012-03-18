@@ -24,7 +24,7 @@ class PrivateSMS:
 		if subscription is None:
 			return render_template('unknown_number.twiml')
 
-		friends = Subscription.find_friends(subscription.number)
+		friends = Friend.find_friends(subscription.number)
 		listeners = 0
 		for target in friends:
 			try:
