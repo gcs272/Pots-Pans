@@ -24,9 +24,9 @@ class Message:
 	def get_subclass(self):
 		if self.is_subscription():
 			return Subscription(self.number, self.message, self.received)
-		elif self.is_friendrequest(self):
+		elif self.is_friendrequest():
 			return Friend(self.number, self.message, self.received)
-		elif self.is_privatemsg(self):
+		elif self.is_privatemsg():
 			return PrivateSMS(self.number, self.message, self.received)
 		else:
 			return Alert(self.number, self.message, self.received)
