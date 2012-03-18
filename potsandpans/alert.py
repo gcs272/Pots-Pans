@@ -26,7 +26,7 @@ class Alert:
 			return render_template('unknown_number.twiml')
 
 		coords = geo.boundingBox(subscription.latitude, subscription.longitude, 10)
-		subscribers = Subscription.find_in_area(coords[0], coords[1], coords[2], coords[3])
+		subscribers = Subscription.find_in_area(subscription.number, coords[0], coords[1], coords[2], coords[3])
 
 		listeners = 0
 		for target in subscribers:

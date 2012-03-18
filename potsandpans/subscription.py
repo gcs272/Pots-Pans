@@ -45,7 +45,7 @@ class Subscription():
 			return render_template('subscription_failed.twiml')
 
 	@staticmethod
-	def find_in_area(min_lat, min_long, max_lat, max_long):
+	def find_in_area(number, min_lat, min_long, max_lat, max_long):
 		
 		conn = get_mongodb_connection()
 		query = {
@@ -56,6 +56,9 @@ class Subscription():
 			"longitude": {
 				"$gt": min_long, 
 				"$lt": max_long
+			},
+			"number": {
+				"$ne": number
 			}
 		}
 
