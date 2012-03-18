@@ -17,7 +17,7 @@ class Message:
 
 	def is_friendrequest(self):
 		words = self.message.split(' ')
-		if len(words) > 0
+		if len(words) > 0:
 			return ('friend+' == words[0].lower())
 		else:
 			return False

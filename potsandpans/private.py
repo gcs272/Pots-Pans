@@ -29,7 +29,7 @@ class PrivateSMS:
 		for target in friends:
 			try:
 				client = get_twilio_instance()
-				client.sms.messages.create(to=target.number, from_='+14155992671', body="%(number)s messaged: %(body)s" % ("number" : self.number, "body" : self.body))
+				client.sms.messages.create(to=target.number, from_='+14155992671', body="%s: %s" % (self.number, self.body))
 				listeners += 1
 			except Exception, e:
 				pass
@@ -42,7 +42,7 @@ class PrivateSMS:
 
 	def save(self):
 		conn = get_mongodb_connection()
-                alerts = conn.potsandpans.alerts
+		alerts = conn.potsandpans.alerts
 		if alert.insert(self.to_dictionary()):
 			return render_template('subscription_stored.twiml')
 		else:
