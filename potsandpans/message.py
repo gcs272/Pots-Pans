@@ -13,21 +13,13 @@ class Message:
 		return self.number
 
 	def is_subscription(self):
-		return ('subscribe' in self.message.lower())
+		return self.message.lower().startswith('subscribe')
 
 	def is_friendrequest(self):
-		words = self.message.split(' ')
-		if len(words) > 0:
-			return ('friend+' == words[0].lower())
-		else:
-			return False
+		return self.message.lower().startswith('friend')
 
 	def is_privatemsg(self):
-		words = self.message.split(' ')
-		if len(words) > 0:
-			return 'shout' == words[0].lower()
-		else:
-			return False
+		return self.message.lower().startswith('shout')
 
 	def get_subclass(self):
 		if self.is_subscription():

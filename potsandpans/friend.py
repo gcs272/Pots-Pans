@@ -15,9 +15,9 @@ class Friend():
 			self.friendnum = friendnum
 
 	def parse(self):
-		""" Parse an incoming message in the form "Friend+ 8005551212" """
+		""" Parse an incoming message in the form "Friend +18005551212" """
 		sub = self.body.split(' ')
-		if len(sub) == 2 and sub[1].isdigit():
+		if len(sub) == 2:
 			self.friendnum = sub[1]
 		else:
 			self.friendnum = None
