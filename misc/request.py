@@ -9,13 +9,13 @@ if len(sys.argv) <= 2:
 if sys.argv[1] == 'subscribe':
 	print 'subscribing'
 	resp = requests.post('http://localhost:5000/sms', data={
-		'From': '555-555-1212',
+		'From': '+12677024270',
 		'Body': sys.argv[2]
 	})
 else:
 	print 'alerting'
 	resp = requests.post('http://localhost:5000/sms', data={
-		'From': '555-555-1212',
+		'From': '+12157401960',
 		'Body': sys.argv[2]
 	})
 print resp.content

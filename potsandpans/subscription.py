@@ -18,8 +18,8 @@ class Subscription():
 		""" Parse an incoming message in the form "SUBSCRIBE -1.932091 1.309280" """
 		sub = self.body.split(' ')
 		if len(sub) == 3:
-			self.latitude = sub[1]
-			self.longitude = sub[2]
+			self.latitude = float(sub[1])
+			self.longitude = float(sub[2])
 		else:
 			self.latitude = None
 			self.longitude = None
@@ -46,9 +46,24 @@ class Subscription():
 
 	@staticmethod
 	def find_in_area(min_lat, min_long, max_lat, max_long):
+		
 		conn = get_mongodb_connection()
-		cursor = conn.potsandpans.subscriptions.find({"latitude": {"$gt":min_lat, "$lt":max_lat}}, 
-			{"longitude": {"$gt": min_long, "$lt": max_long}})
+		query = {
+			"latitude": {
+				"$gt":min_lat, 
+				"$lt":max_lat
+			}, 
+			"longitude": {
+				"$gt": min_long, 
+				"$lt": max_long
+			}
+		}
+
+		print query
+
+		cursor = conn.potsandpans.subscriptions.find(query)
+
+		print '\n\nfound %d subscriptions\n\n' % (cursor.count())
 
 		subscriptions = []
 		for record in cursor:
