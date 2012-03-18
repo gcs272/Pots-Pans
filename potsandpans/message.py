@@ -15,9 +15,27 @@ class Message:
 	def is_subscription(self):
 		return ('subscribe' in self.message.lower())
 
+	def is_friendrequest(self):
+		words = self.message.split(' ')
+		if len(words) > 0
+			return ('friend+' == words[0].lower())
+		else:
+			return False
+
+	def is_privatemsg(self)
+		words = self.message.split(' ')
+		if len(words) > 0:
+			return 'shout' == words[0].lower()
+		else:
+			return False
+
 	def get_subclass(self):
 		if self.is_subscription():
 			return Subscription(self.number, self.message, self.received)
+		elif self.is_friendrequest(self):
+			return Friend(self.number, self.message, self.received)
+		elif self.is_privatemsg(self):
+			return PrivateSMS(self.number, self.message, self.received)
 		else:
 			return Alert(self.number, self.message, self.received)
 	
