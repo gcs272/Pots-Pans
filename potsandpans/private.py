@@ -7,7 +7,7 @@ import datetime
 class PrivateSMS:
 	def __init__(self, number, body, timestamp):
 		self.number = number
-		self.body = body
+		self.body = body[6:]
 		self.timestamp = datetime.datetime.utcnow().isoformat()
 		
 	def lookup_subscription(self):
