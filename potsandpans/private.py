@@ -29,7 +29,7 @@ class PrivateSMS:
 		for target in friends:
 			try:
 				client = get_twilio_instance()
-				client.sms.messages.create(to=target.number, from_='+14155992671', body="%s: %s" % (self.number, self.body))
+				client.sms.messages.create(to=target.friendnum, from_='+14155992671', body="%s: %s" % (self.number, self.body))
 				listeners += 1
 			except Exception, e:
 				pass
